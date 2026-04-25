@@ -1,0 +1,22 @@
+{
+  "name": "sergio-skills",
+  "owner": {
+    "name": "SergioYin"
+  },
+  "metadata": {
+    "description": "Personal agent skills and harnesses maintained by SergioYin.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "sergio-skills",
+      "description": "Personal OpenClaw/Claude-compatible skills for content reading, automation, and local workflows.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/xiaohongshu-reader"
+      ]
+    }
+  ]
+}
+

@@ -1,0 +1,39 @@
+{
+  "success": true,
+  "source_url": "string",
+  "final_url": "string",
+  "feed_id": "string",
+  "text_payload": {
+    "title": "string",
+    "author": "string|null",
+    "desc": "string",
+    "tags": ["string"],
+    "time": "number|string|null",
+    "ip_location": "string|null",
+    "type": "string|null",
+    "interact": "object"
+  },
+  "media_payload": {
+    "image_count": "number",
+    "images": ["url"],
+    "download_dir": "~/.openclaw/workspace/media/xiaohongshu/<feed_id>",
+    "downloaded_images": ["absolute local path"],
+    "video_count": "number",
+    "videos": ["url"]
+  },
+  "image_descriptions": [
+    {
+      "index": 1,
+      "path": "absolute local path",
+      "status": "success|error",
+      "description": "vision-model description when status=success",
+      "error": "error text when status=error"
+    }
+  ],
+  "summaries": {
+    "text_summary": "string",
+    "image_summary": "string",
+    "combined_summary": "string"
+  },
+  "warnings": []
+}
