@@ -26,6 +26,28 @@ python3 scripts/smoke_test.py --vision --image-limit 1 --json
 python3 scripts/cleanup_media.py --days 7 --dry-run --json
 ```
 
+
+### weibo-reader
+
+Reads public Weibo / 微博 single-post links from `t.cn`, `weibo.com`, or `m.weibo.cn`, extracts full long-text content, author/time/source/interactions, downloads images into the OpenClaw workspace media tree, optionally runs image vision analysis, and includes doctor/smoke-test/cleanup harness scripts.
+
+Path:
+
+```text
+skills/weibo-reader/
+```
+
+Quick smoke tests:
+
+```bash
+cd skills/weibo-reader
+python3 scripts/doctor.py --json
+python3 scripts/smoke_test.py --no-vision --json
+python3 scripts/smoke_test.py --vision --image-limit 1 --json
+python3 scripts/cleanup_media.py --days 7 --dry-run --json
+python3 scripts/install_cleanup_cron.py status --json
+```
+
 ## Install As Plugin Marketplace
 
 In a compatible agent runtime:
@@ -39,6 +61,7 @@ Direct GitHub installs should point at the individual skill directory when the i
 
 ```text
 SergioYin/sergio-skills --path skills/xiaohongshu-reader
+SergioYin/sergio-skills --path skills/weibo-reader
 ```
 
 ## Repository Rules

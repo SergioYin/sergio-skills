@@ -1,0 +1,29 @@
+{
+  "success": true,
+  "source_url": "string",
+  "final_url": "string",
+  "status_id": "string",
+  "author": {
+    "id": "string",
+    "screen_name": "string",
+    "verified_reason": "string|null",
+    "followers_count": "number|null",
+    "location": "string|null"
+  },
+  "created_at": "string|null",
+  "source": "string|null",
+  "text": "string",
+  "text_length": "number",
+  "interact": {
+    "reposts_count": "number|null",
+    "comments_count": "number|null",
+    "attitudes_count": "number|null"
+  },
+  "images": ["string"],
+  "download_dir": "string|null",
+  "downloaded_images": ["string|object"],
+  "text_payload": "object",
+  "media_payload": "object",
+  "summaries": "object",
+  "warnings": ["string"]
+}

@@ -14,9 +14,9 @@
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/xiaohongshu-reader"
+        "./skills/xiaohongshu-reader",
+        "./skills/weibo-reader"
       ]
     }
   ]
 }
-
