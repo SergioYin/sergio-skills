@@ -386,11 +386,43 @@ def analyze_images(result: dict[str, Any], vision_model: str, agent_dir: str, co
     return result
 
 
+def _media_ref(status_id: str, path: str | None) -> str | None:
+    if not path:
+        return None
+    return f"media://weibo/{status_id}/{Path(path).name}"
+
+
+def redact_local_paths(result: dict[str, Any]) -> dict[str, Any]:
+    status_id = str(result.get("status_id") or "")
+    result = json.loads(json.dumps(result, ensure_ascii=False))
+    if result.get("download_dir"):
+        result["download_dir"] = f"media://weibo/{status_id}/"
+    if isinstance(result.get("downloaded_images"), list):
+        result["downloaded_images"] = [
+            _media_ref(status_id, x) if isinstance(x, str) else x for x in result["downloaded_images"]
+        ]
+    mp = result.get("media_payload") or {}
+    if mp.get("download_dir"):
+        mp["download_dir"] = f"media://weibo/{status_id}/"
+    if isinstance(mp.get("downloaded_images"), list):
+        mp["downloaded_images"] = [
+            _media_ref(status_id, x) if isinstance(x, str) else x for x in mp["downloaded_images"]
+        ]
+    for item in result.get("image_descriptions") or []:
+        if isinstance(item, dict) and isinstance(item.get("path"), str):
+            item["path"] = _media_ref(status_id, item["path"])
+    if result.get("raw_saved"):
+        result["raw_saved"] = _media_ref(status_id, result["raw_saved"])
+    return result
+
+
 def main() -> int:
     p = argparse.ArgumentParser(description="Read a public Weibo status from a link")
     p.add_argument("input", help="Text containing t.cn/weibo.com/m.weibo.cn link")
-    p.add_argument("--no-download-images", action="store_true", help="Do not download images")
-    p.add_argument("--analyze-images", action="store_true", help="Download and visually analyze images with OpenClaw vision runtime")
+    p.add_argument("--no-download-images", action="store_true", help="Do not download images or analyze images")
+    p.add_argument("--analyze-images", action="store_true", help="Deprecated compatibility flag; image analysis is on by default when images are downloaded")
+    p.add_argument("--no-analyze-images", action="store_true", help="Download images but skip visual analysis")
+    p.add_argument("--include-local-paths", action="store_true", help="Include absolute local paths in JSON output for debugging/tests")
     p.add_argument("--image-limit", type=int, default=12, help="Maximum images to download/analyze")
     p.add_argument("--vision-model", default=DEFAULT_VISION_MODEL)
     p.add_argument("--agent-dir", default=str(default_agent_dir()))
@@ -399,18 +431,21 @@ def main() -> int:
     p.add_argument("--media-root", help="Media root directory")
     args = p.parse_args()
     try:
+        should_download = not args.no_download_images
+        should_analyze = should_download and not args.no_analyze_images
         result = read_status(
             args.input,
-            download_images=(not args.no_download_images) or args.analyze_images,
+            download_images=should_download,
             media_root=Path(args.media_root).expanduser() if args.media_root else None,
         )
-        if args.analyze_images:
+        if should_analyze:
             result = analyze_images(result, args.vision_model, args.agent_dir, args.config_path, args.image_limit, args.openclaw_dist)
         if result.get("download_dir"):
             raw_path = Path(result["download_dir"]) / "status.json"
-            raw_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+            raw_path.write_text(json.dumps(redact_local_paths(result), ensure_ascii=False, indent=2), encoding="utf-8")
             result["raw_saved"] = str(raw_path)
-        print(json.dumps(result, ensure_ascii=False, indent=2))
+        output = result if args.include_local_paths else redact_local_paths(result)
+        print(json.dumps(output, ensure_ascii=False, indent=2))
         return 0
     except Exception as e:
         print(json.dumps({"success": False, "error": str(e)}, ensure_ascii=False, indent=2), file=sys.stderr)

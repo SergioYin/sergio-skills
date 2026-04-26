@@ -9,16 +9,16 @@ Use this skill for `t.cn` short links, `weibo.com/.../{status_id}`, `m.weibo.cn/
 
 ## Quick Use
 
-Read text and download images:
+Read text, download images, and visually analyze images by default:
 
 ```bash
 python3 scripts/read_weibo_link.py "<user text containing a Weibo link>"
 ```
 
-Download and visually analyze images:
+Limit visual analysis to one image:
 
 ```bash
-python3 scripts/read_weibo_link.py --analyze-images --image-limit 1 "<user text containing a Weibo link>"
+python3 scripts/read_weibo_link.py --image-limit 1 "<user text containing a Weibo link>"
 ```
 
 Text only:
@@ -32,6 +32,8 @@ Defaults are HOME-based, not machine-specific:
 - config: `~/.openclaw/openclaw.json`
 - agent dir: `~/.openclaw/agents/main/agent`
 - media root: `~/.openclaw/workspace/media/weibo/<status_id>/`
+
+Default JSON output redacts local absolute paths as `media://weibo/<status_id>/<file>`. Use `--include-local-paths` only for local debugging/tests.
 
 Useful override:
 
@@ -77,10 +79,10 @@ Do not dump raw JSON unless the user asks for JSON. Final user-facing answer sho
 1. One-sentence overview.
 2. `微博信息`: author, time, source, interactions when available.
 3. `正文要点`: summarize the full `text` field.
-4. `图片信息`: mention image count/download path. Do not claim visual contents unless explicitly inspected with a vision/OCR step.
+4. `图片信息`: summarize successful `image_descriptions`. Do not mention absolute local file paths.
 5. `综合分析 / 可行动结论`: concise synthesis when the user asks for analysis.
 
-If images were downloaded but not visually analyzed, say: “图片已下载，但我还没有做视觉分析，不能声称已看过图片内容。”
+If image analysis failed or was disabled, say: “图片已下载但视觉分析失败/未开启，不能声称已看过图片内容。” Never expose local absolute paths in user-facing replies.
 
 ## Harness Scripts
 

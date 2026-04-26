@@ -26,9 +26,11 @@ def main() -> int:
     tests=[]; warnings=[]; errors=[]; artifacts={}
 
     text = Path(args.input).read_text().strip()
-    cmd = [sys.executable, str(skill_dir()/'scripts'/'read_weibo_link.py')]
+    cmd = [sys.executable, str(skill_dir()/'scripts'/'read_weibo_link.py'), '--include-local-paths']
     if args.vision:
-        cmd += ['--analyze-images', '--image-limit', str(args.image_limit)]
+        cmd += ['--image-limit', str(args.image_limit)]
+    elif args.no_vision:
+        cmd.append('--no-analyze-images')
     elif args.no_download_images:
         cmd.append('--no-download-images')
     cmd.append(text)
