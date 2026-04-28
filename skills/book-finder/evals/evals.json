@@ -1,0 +1,23 @@
+{
+  "skill_name": "book-finder",
+  "evals": [
+    {
+      "id": 0,
+      "name": "alice-public-domain-classic",
+      "prompt": "Hey, I want to grab a copy of Alice in Wonderland by Lewis Carroll for my reader. EPUB if possible. Just pick whatever the cleanest result looks like — don't make me choose from a long list. After you download it, tell me where the file ended up.",
+      "expected_output": "The agent runs the multi-source search, picks an EPUB result (Gutenberg or libgen), downloads it into ~/Downloads/books/, registers it in library.json, and reports the absolute path back."
+    },
+    {
+      "id": 1,
+      "name": "three-body-chinese",
+      "prompt": "找一本电子书：刘慈欣的《三体》，中文版的。先帮我看看搜到了哪些版本（来源、格式、大小），如果有能直接下载的就挑一个最像正文的下下来；如果搜到的都是网盘链接（manual_link），就告诉我跳到哪个网址自己去拿。",
+      "expected_output": "The agent searches in Chinese, presents a table or list of results showing source/format/size, then either downloads a directly-fetchable result (libgen Chinese listing) OR explains that the relevant hits are manual_link entries and gives the user the URL(s) to open."
+    },
+    {
+      "id": 2,
+      "name": "gatsby-pick-cleanest",
+      "prompt": "Can you find me an ebook of The Great Gatsby by F. Scott Fitzgerald? EPUB preferred, PDF acceptable. Just go ahead and pick the cleanest-looking version yourself and download it — I trust your judgment. Make sure it ends up in my library so I can find it later.",
+      "expected_output": "The agent searches, identifies a clean EPUB or PDF (likely from libgen.li or archive.org), downloads it to ~/Downloads/books/, and library.json is updated."
+    }
+  ]
+}

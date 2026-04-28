@@ -6,6 +6,26 @@ This repository follows the same broad layout as `jimliu/baoyu-skills`: skills l
 
 ## Skills
 
+### book-finder
+
+Searches for ebooks by title and optional author hints, shows available versions across supported sources, and downloads the selected file into a managed local library with `library.json` metadata.
+
+Disclaimer: this skill is for personal research and reading use only. It is not for propagation, redistribution, resale, or public sharing.
+
+Path:
+
+```text
+skills/book-finder/
+```
+
+Quick checks:
+
+```bash
+cd skills/book-finder
+python3 scripts/config.py show
+python3 scripts/search.py "Alice in Wonderland" --limit 3 --json
+```
+
 ### xiaohongshu-reader
 
 Reads Xiaohongshu / RedNote links or share text, extracts note text and media metadata, downloads images into the OpenClaw workspace media tree, optionally runs image vision analysis, and returns structured text + image summaries.
@@ -60,6 +80,7 @@ In a compatible agent runtime:
 Direct GitHub installs should point at the individual skill directory when the installer supports a path:
 
 ```text
+SergioYin/sergio-skills --path skills/book-finder
 SergioYin/sergio-skills --path skills/xiaohongshu-reader
 SergioYin/sergio-skills --path skills/weibo-reader
 ```
@@ -71,4 +92,3 @@ SergioYin/sergio-skills --path skills/weibo-reader
 - Put small examples in `examples/`.
 - Keep generated outputs, caches, downloaded media, and local secrets out of Git.
 - Prefer `doctor.py`, `smoke_test.py`, and dry-run cleanup flows for every skill that depends on local runtime state.
-
