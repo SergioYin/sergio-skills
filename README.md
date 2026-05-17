@@ -68,6 +68,16 @@ python3 scripts/cleanup_media.py --days 7 --dry-run --json
 python3 scripts/install_cleanup_cron.py status --json
 ```
 
+### deploy-claude-code-and-hermes-agent-on-windows
+
+Guides a non-expert through Windows WSL2, Claude Code, MiniMax Token Plan, Hermes Agent, and Feishu/Lark gateway setup, with a Claude Code bootstrap prompt and a one-QR Feishu scan-to-create path.
+
+Path:
+
+```text
+skills/deploy-claude-code-and-hermes-agent-on-windows/
+```
+
 ## Install As Plugin Marketplace
 
 In a compatible agent runtime:
@@ -81,6 +91,7 @@ Direct GitHub installs should point at the individual skill directory when the i
 
 ```text
 SergioYin/sergio-skills --path skills/book-finder
+SergioYin/sergio-skills --path skills/deploy-claude-code-and-hermes-agent-on-windows
 SergioYin/sergio-skills --path skills/xiaohongshu-reader
 SergioYin/sergio-skills --path skills/weibo-reader
 ```

@@ -15,6 +15,7 @@
       "strict": false,
       "skills": [
         "./skills/book-finder",
+        "./skills/deploy-claude-code-and-hermes-agent-on-windows",
         "./skills/xiaohongshu-reader",
         "./skills/weibo-reader"
       ]
