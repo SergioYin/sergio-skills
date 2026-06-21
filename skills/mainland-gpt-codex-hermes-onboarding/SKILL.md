@@ -1,6 +1,6 @@
 ---
 name: mainland-gpt-codex-hermes-onboarding
-description: Guide a mainland-China non-expert from compliant VPN/international network setup through ChatGPT account/SMS, Codex CLI, Hermes Agent, and publishing the workflow as a GitHub Skill that another daily assistant such as 豆包 can follow.
+description: Guide a mainland-China non-expert from compliant VPN/international network setup through ChatGPT account/SMS, Codex 桌面版/App（CLI 备用）、Hermes Agent, and publishing the workflow as a GitHub Skill that another daily assistant such as 豆包 can follow.
 version: 1.0.0
 author: SergioYin
 license: MIT
@@ -25,8 +25,8 @@ metadata:
 
 1. **合规优先**：网络访问、支付、手机号、账号注册都要遵守当地法律、平台条款和用户所在地区要求。本 Skill 不提供规避监管、伪造身份、盗用支付、批量注册、接码平台等做法。
 2. **账号安全优先**：不要让 AI 或他人代收验证码；不要把密码、短信验证码、备份码、API Key 发给任何助手。
-3. **真实手机号优先**：OpenAI/ChatGPT 相关验证可能不支持中国大陆 `+86` 手机号或不稳定。建议使用本人长期控制、所在地区受支持、能正常收短信的真实手机号；不要用一次性接码平台。
-4. **分层验收**：网络能访问 → ChatGPT 能登录 → Codex CLI 能工作 → Hermes CLI 能工作 → 再配置 Gateway/Skills/GitHub。
+3. **手机号现实情况**：OpenAI 帮助页当前说明 ChatGPT 新账号/普通 ChatGPT 使用通常不再要求手机验证；但 API 首个 Key、异常风控、特定地区/账号状态仍可能触发 SMS/WhatsApp 验证。若出现验证，使用本人长期控制的真实号码；不要用一次性接码平台。
+4. **分层验收**：网络能访问 → ChatGPT 能登录 → Codex App 能工作 → Hermes CLI 能工作 → 再配置 Gateway/Skills/GitHub。
 
 ## 一页总流程
 
@@ -35,7 +35,7 @@ metadata:
 → 配置合规稳定的国际网络环境（VPN/代理/公司网络/境外网络，按用户合法可用方式）
 → 注册/登录 ChatGPT
 → 通过 SMS/邮箱/支付验证并开通可用套餐
-→ 安装并登录 Codex CLI
+→ 安装并登录 Codex 桌面版/App（CLI 备用）
 → 安装 Hermes Agent
 → 在 Hermes 中选择 OpenAI Codex / Nous Portal / 其他 provider
 → 验证 CLI 聊天、工具、文件读写
@@ -123,144 +123,297 @@ curl -I https://github.com
 
 ---
 
-## 2. 注册或登录 ChatGPT，并处理 SMS
+## 2. 注册或登录 ChatGPT：详细到页面动作
 
-### 2.1 进入官网
+> 当前官方帮助页要点：ChatGPT 新账号/普通 ChatGPT 使用通常**不再要求手机验证**；但 API 平台创建首个 API Key 仍可能要求手机验证。若出现手机验证，验证码只能通过 SMS，或在部分国家/地区通过 WhatsApp；不能改成邮箱或电话语音。实际页面以 OpenAI 当时风控为准。
 
-打开：
+### 2.1 注册前先做“干净环境”
+
+普通用户先做这几件事，减少风控和页面异常：
+
+1. 打开稳定国际网络，注册期间不要频繁切换国家/地区。
+2. 使用常用浏览器的无痕窗口，或清理旧的 `chatgpt.com` / `openai.com` Cookie。
+3. 电脑系统时间、时区自动同步，浏览器不要装太多奇怪插件。
+4. 准备一个长期邮箱：Gmail / Outlook / iCloud / Proton / 公司邮箱均可；不建议用临时邮箱。
+5. 如果要付费，准备官方页面可接受的付款方式；不要找陌生人代付或代绑账号。
+
+验收：浏览器能打开：
+
+```text
+https://chatgpt.com
+https://help.openai.com
+https://developers.openai.com/codex/app
+```
+
+### 2.2 进入注册页
+
+1. 打开：
 
 ```text
 https://chatgpt.com
 ```
 
-点击 Sign up / Log in。
+2. 点 **Sign up**。如果已有账号，点 **Log in**。
+3. 推荐优先使用：
+   - Google 登录；
+   - Apple 登录；
+   - Microsoft 登录；
+   - 或邮箱 + 密码。
 
-推荐方式：
+经验规则：
 
-- 用常用邮箱注册；或
-- 用 Google / Apple / Microsoft 登录。
+- 如果用户本来就有 Gmail / Apple / Microsoft 账号，用第三方登录更少记密码；
+- 如果用邮箱密码注册，密码要保存到密码管理器；
+- 以后 Codex App、Codex CLI、Hermes OpenAI Codex provider 尽量都使用这个同一个 ChatGPT 账号。
 
-注意：以后 Codex 和 Hermes 的 OpenAI Codex provider 最好使用同一个 ChatGPT 账号，减少权限不同步。
+### 2.3 邮箱验证
 
-### 2.2 邮箱验证
+如果使用邮箱注册：
 
 1. 输入邮箱。
-2. 打开邮箱收信。
-3. 点击 OpenAI/ChatGPT 发来的验证链接。
-4. 回到 ChatGPT 页面继续。
+2. 设置密码。
+3. 打开邮箱收信。
+4. 找到 OpenAI / ChatGPT 验证邮件。
+5. 点击 **Verify email address** 或类似按钮。
+6. 回到 ChatGPT 页面继续。
 
-### 2.3 SMS 手机号验证
+如果收不到邮件：
 
-如果页面要求手机号：
+- 查垃圾邮件 / 促销 / 通知分类；
+- 等 1–3 分钟再点重发；
+- 不要连续高频重发；
+- 换一个长期可用邮箱。
+
+### 2.4 填姓名 / 生日 / 基础资料
+
+页面可能要求：
+
+- 姓名；
+- 出生日期；
+- 用途或个性化问题。
+
+按真实信息填写。不要为了“看起来像外国人”乱填身份信息；未来账号恢复、付款、风控可能会用到这些一致性。
+
+### 2.5 SMS / WhatsApp 手机验证
+
+如果页面要求手机验证：
 
 1. 选择手机号所属国家/地区。
 2. 输入本人长期控制的真实手机号。
-3. 接收短信验证码。
-4. 在网页填入验证码。
+3. 选择页面给出的接收方式：
+   - SMS；
+   - 或 WhatsApp（仅当该国家/地区页面显示支持）。
+4. 收到一次性验证码后，由用户自己填入网页。
 
-如果 `+86` 收不到或页面不支持：
+重要规则：
+
+- AI 助手不要索要、代填、保存验证码；
+- 不要把验证码发给任何人；
+- 官方帮助页说明：验证码不能改成邮箱或电话语音；只能 SMS，或部分地区 WhatsApp；
+- OpenAI 帮助页也说明：ChatGPT 新账号/普通 ChatGPT 使用通常不再要求手机验证，但 API 首个 Key 可能要求；所以如果用户在某一步遇到 SMS，要先判断是在 ChatGPT 页面还是 platform/API 页面。
+
+如果 `+86` 或当前号码不可用：
 
 - 不要反复高频尝试，容易触发风控；
-- 不要使用接码平台、共享手机号、临时号；
-- 可使用本人合法持有的境外手机号/eSIM/长期号码；
-- 也可以请可信亲友用其本人长期号码协助，但账号归属、付款、恢复方式要清楚，避免未来找不回；
-- 仍失败时，先开普通 ChatGPT 网页能力，Codex/Hermes 可暂时用其他 provider（OpenRouter、Google、Kimi、DeepSeek、Qwen、MiniMax、Nous Portal 等）替代。
+- 不要使用一次性接码平台、共享号码、临时号；
+- 可以使用本人长期控制、所在地区受支持的真实号码/eSIM/长期境外号码；
+- 如果没有合适手机号，先完成 ChatGPT 网页可用性；Codex/Hermes 可以暂时走其他 provider（Nous Portal、OpenRouter、Gemini、Kimi、DeepSeek、Qwen、MiniMax 等），不要把整套安装卡死。
 
-### 2.4 开通 Plus / Pro / 可用套餐
+> 网上很多中文教程会推荐“海外接码平台 / 虚拟卡 / 代升级”。这类方案容易违反平台条款、导致找回困难或封号；本 Skill 只保留风险提醒，不给可执行接码步骤。
 
-Codex CLI 官方说明中，Codex CLI 可随 ChatGPT Plus、Pro、Business、Edu、Enterprise 等计划使用。实际可用性以用户账号页面和 OpenAI 当前规则为准。
+### 2.6 首次登录后验收 ChatGPT
 
-操作：
-
-1. 进入 ChatGPT 左下角账号菜单。
-2. 找到 Upgrade / Plan / Subscription。
-3. 选择 Plus 或 Pro 等计划。
-4. 使用可支持的付款方式。
-5. 付款成功后刷新网页。
-6. 在 ChatGPT 中确认能正常对话。
-
-验收：
-
-- ChatGPT 网页能打开；
-- 能发出一条普通消息并收到回答；
-- 账号页面显示订阅状态；
-- 不要把付款截图、手机号、验证码发给 AI。
-
----
-
-## 3. 安装和使用 Codex CLI
-
-Codex CLI 是 OpenAI 的本地代码助手，可以在终端读取、修改、运行当前目录下的代码。
-
-### 3.1 macOS / Linux 安装
-
-```bash
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
-```
-
-安装后重开终端，检查：
-
-```bash
-codex --version
-```
-
-### 3.2 Windows 安装
-
-优先二选一：
-
-- 新手/原生 Windows：PowerShell 中按 OpenAI Windows 指南安装；
-- 开发者/需要 Linux 工具：先装 WSL2 Ubuntu，再在 WSL2 里按 Linux 方法安装。
-
-Windows 用户不要默认用管理员权限运行 Codex，除非非常清楚自己在做系统级维护。
-
-### 3.3 登录 Codex
-
-在终端运行：
-
-```bash
-codex
-```
-
-首次运行会要求登录：
-
-- 选择 ChatGPT account；
-- 浏览器打开登录页；
-- 用刚才开通套餐的 ChatGPT 账号登录；
-- 按页面提示授权；
-- 回到终端。
-
-验收：
-
-```bash
-mkdir -p ~/codex-smoke-test
-cd ~/codex-smoke-test
-codex
-```
-
-在 Codex 里输入：
+进入 ChatGPT 主界面后，做最小测试：
 
 ```text
-请创建一个 hello.py，运行它，并告诉我输出是什么。不要访问我的其他目录。
+请用一句中文回答：你现在可以正常工作吗？
 ```
 
 成功标准：
 
-- Codex 能创建 `hello.py`；
-- 能运行 Python；
-- 能说清楚输出；
-- 任何修改文件/运行命令前如有审批提示，用户能看懂并批准/拒绝。
+- 能进入 ChatGPT；
+- 能发出消息；
+- 能收到回答；
+- 左下角/账户菜单能打开 Settings / Plan / Subscription。
 
-### 3.4 Codex 使用原则
+### 2.7 开通 Plus / Pro / 可用套餐
 
-- 只在项目目录中运行 Codex，不要在用户主目录 `/` 或 `C:\` 根目录乱跑；
-- 开始时要求它“先读 README / 先给计划 / 修改前说明”；
-- 对删除、批量替换、安装全局依赖、访问密钥文件等请求保持警惕；
-- 重要项目先用 Git：
+Codex App / CLI 官方文档说明：Codex 包含在 ChatGPT Plus、Pro、Business、Edu、Enterprise 等计划中；实际权益以账号页面和 OpenAI 当前价格页为准。
+
+操作：
+
+1. 在 ChatGPT 左下角点头像/账号菜单。
+2. 找到 **Upgrade plan** / **Plan** / **Subscription**。
+3. 选择 Plus、Pro 或团队计划。
+4. 进入官方结账页。
+5. 使用官方支持的付款方式。
+6. 付款成功后刷新 ChatGPT。
+7. 再打开账号菜单确认订阅状态。
+
+付款失败排查：
+
+- 卡是否支持国际在线订阅；
+- 卡是否开启境外/线上支付；
+- 网络地区、账单地区、付款方式地区尽量一致；
+- Apple Pay / Google Pay 如果页面支持，可优先试；
+- 不要把付款卡号、CVV、短信码发给助手；
+- 不要找陌生人代付绑定账号。
+
+完成标准：
+
+- ChatGPT 网页正常对话；
+- 账号页面能看到当前 plan；
+- 能访问 Codex App 下载页面：
+
+```text
+https://developers.openai.com/codex/app
+```
+
+---
+
+## 3. 安装和使用 Codex 桌面版（优先）
+
+Codex App 是 OpenAI 的桌面端“Codex 指挥中心”，适合普通人使用。它支持 macOS 和 Windows，可管理多个项目、多个线程、Git worktree、自动化、内置终端、Git diff/commit/PR 等。CLI 作为备用或高级路线。
+
+### 3.1 下载 Codex App
+
+官方入口：
+
+```text
+https://developers.openai.com/codex/app
+```
+
+macOS：
+
+- Apple Silicon Mac：下载 Apple Silicon 版 `Codex.dmg`；
+- Intel Mac：下载 Intel/x64 版 `Codex-latest-x64.dmg`；
+- 不确定芯片：点左上角 Apple 菜单 → About This Mac，看 Chip / Processor。
+
+Windows：
+
+- 官方页面会跳到 Microsoft Store / 安装器；
+- 也可在 PowerShell 中安装：
+
+```powershell
+winget install Codex -s msstore
+```
+
+不要从不明网盘、破解版网站下载 Codex。
+
+### 3.2 安装并登录
+
+macOS：
+
+1. 打开 `.dmg`。
+2. 把 Codex 拖入 Applications。
+3. 从 Applications 打开 Codex。
+4. 如果系统拦截，确认来源是 OpenAI 官方下载，再在系统设置里允许打开。
+
+Windows：
+
+1. 从 Microsoft Store / 官方安装器安装。
+2. 打开 Codex。
+3. 首次启动时按提示登录。
+
+登录方式：
+
+- 优先选择 **ChatGPT account**，使用前面开通的同一个账号；
+- 也可以用 OpenAI API key，但官方说明部分功能可能不可用；普通用户不优先推荐。
+
+### 3.3 第一次添加项目
+
+1. 在桌面新建一个安全测试目录：
+
+macOS / Linux / WSL2：
+
+```bash
+mkdir -p ~/codex-smoke-test
+```
+
+Windows PowerShell：
+
+```powershell
+mkdir $HOME\codex-smoke-test
+```
+
+2. 打开 Codex App。
+3. 点击 **Add project** / **Open project**。
+4. 选择刚才的 `codex-smoke-test` 文件夹。
+5. 确认模式选择 **Local**，不要一开始就选 Full Access。
+6. 发第一条消息：
+
+```text
+请在当前项目里创建一个 hello.py，运行它，并告诉我输出是什么。不要访问当前项目以外的目录。
+```
+
+成功标准：
+
+- Codex App 能在项目中创建文件；
+- 能运行命令或展示需要用户批准的命令；
+- 用户能在 App 里看到修改、终端输出、diff 或总结；
+- 没有访问项目外目录。
+
+### 3.4 Windows Codex App 特别设置
+
+Windows Codex App 支持两种 agent：
+
+1. **Windows native**：默认，命令在 PowerShell 里跑，使用 Windows 原生 sandbox；
+2. **WSL2**：agent 在 WSL2 里跑，使用 Linux sandbox。
+
+普通 Windows 用户建议：
+
+- 没有 Linux 开发需求：先用 Windows native；
+- 项目依赖 Linux 工具链：安装 WSL2，再在 Codex Settings 里把 agent 切到 WSL，并重启 App。
+
+如果使用 Windows native：
+
+- 项目优先放在 Windows 文件系统，例如 `C:\Users\你的用户名\Projects\xxx`；
+- 不要默认用管理员身份打开 Codex；
+- sandbox 权限保持 Default permissions；
+- Full Access 风险高，只有在明确需要且已备份项目时再考虑。
+
+常用开发工具可用 winget 安装：
+
+```powershell
+winget install --id Git.Git
+winget install --id OpenJS.NodeJS.LTS
+winget install --id Python.Python.3.14
+winget install --id GitHub.cli
+```
+
+### 3.5 Codex App 使用原则
+
+- 一个项目一个 Project，不要把整个用户主目录加进去；
+- 新任务优先用 **Worktree** 隔离，尤其是同一个 repo 内并行多个任务；
+- 让 Codex 先读 README / AGENTS.md / package.json / 测试命令；
+- 让 Codex 先给计划，再改文件；
+- 在 Diff 面板里看修改，再决定 stage / revert / commit；
+- 对删除文件、批量替换、安装全局依赖、访问密钥文件、Full Access 等请求保持警惕；
+- 重要项目先检查：
 
 ```bash
 git status
 git diff
 ```
+
+### 3.6 CLI 备用路线
+
+如果 Codex App 安装失败，或用户更适合终端：
+
+macOS / Linux：
+
+```bash
+curl -fsSL https://chatgpt.com/codex/install.sh | sh
+codex --version
+codex
+```
+
+Windows：
+
+- 优先用 Codex App；
+- 需要 CLI 时可用官方 Windows 指南或 WSL2 路线。
+
+---
 
 ---
 
@@ -407,7 +560,7 @@ README.md
 - 用户准备清单；
 - 网络/VPN 合规边界；
 - ChatGPT 注册、SMS、付款；
-- Codex CLI 安装和验收；
+- Codex 桌面版/App 安装和验收，CLI 作为备用；
 - Hermes 安装、provider、工具、验收；
 - GitHub 发布步骤；
 - 给豆包/其他助手的使用方式；
@@ -428,7 +581,7 @@ README.md
 ````markdown
 ### mainland-gpt-codex-hermes-onboarding
 
-Guides a mainland-China non-expert from compliant international network setup through ChatGPT/SMS, Codex CLI, Hermes Agent, and publishing the workflow as a reusable Skill.
+Guides a mainland-China non-expert from compliant international network setup through ChatGPT/SMS, Codex 桌面版/App（CLI 备用）、Hermes Agent, and publishing the workflow as a reusable Skill.
 
 Path:
 
@@ -518,16 +671,18 @@ curl -I https://github.com
 
 不要代收验证码。
 
-## 阶段 4：Codex 验收
+## 阶段 4：Codex App 验收
 
-指导安装并运行：
+指导用户：
 
-```bash
-codex --version
-codex
-```
+1. 从 `https://developers.openai.com/codex/app` 下载官方 Codex App；
+2. 用同一个 ChatGPT 账号登录；
+3. 新建 `~/codex-smoke-test` 或 `%USERPROFILE%\codex-smoke-test`；
+4. 在 Codex App 里 Add/Open project；
+5. 选择 Local + 默认 sandbox 权限；
+6. 让 Codex 创建并运行 `hello.py`，确认能看到文件修改和输出。
 
-然后做 `~/codex-smoke-test`。
+CLI 只作为备用路线，不作为普通用户主路径。
 
 ## 阶段 5：Hermes 验收
 
@@ -580,11 +735,13 @@ git remote -v
 - 尝试 Apple Pay/Google Pay 等官方支持方式；
 - 不要找陌生人代付绑定账号。
 
-## Codex 登录后仍不可用
+## Codex App 登录后仍不可用
 
-- 确认 ChatGPT 套餐包含 Codex；
-- 退出重登 Codex；
-- 更新 Codex：
+- 确认 ChatGPT 套餐包含 Codex，且使用的是同一个 ChatGPT 账号；
+- 退出 Codex App 后重登；
+- Windows 版优先从 Microsoft Store / 官方链接更新；
+- macOS 版优先从 `https://developers.openai.com/codex/app` 重新下载官方安装包；
+- 如果只是不想用 App，可临时走 CLI 备用路线：
 
 ```bash
 curl -fsSL https://chatgpt.com/codex/install.sh | sh
@@ -624,7 +781,7 @@ hermes model
 
 - 用户能稳定访问 ChatGPT/GitHub；
 - 用户能登录 ChatGPT 并正常对话；
-- 用户能在终端运行 Codex CLI 并完成一个小文件任务；
+- 用户能在 Codex App 中添加本地测试项目并完成一个小文件任务；
 - 用户能运行 Hermes CLI 并完成一次中文回答；
 - 如用户要求发布，GitHub 仓库中存在 Skill 目录、README 入口和 marketplace 注册；
 - 整个过程中没有泄露验证码、密码、支付信息、API Key。

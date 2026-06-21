@@ -70,7 +70,7 @@ python3 scripts/install_cleanup_cron.py status --json
 
 ### mainland-gpt-codex-hermes-onboarding
 
-Guides a mainland-China non-expert from compliant international network setup through ChatGPT/SMS, Codex CLI, Hermes Agent, and publishing the workflow as a reusable Skill that daily assistants such as 豆包 can follow.
+Guides a mainland-China non-expert from compliant international network setup through detailed ChatGPT/SMS/account setup, Codex desktop app onboarding (CLI as fallback), Hermes Agent, and publishing the workflow as a reusable Skill that daily assistants such as 豆包 can follow.
 
 Path:
 
