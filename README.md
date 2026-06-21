@@ -68,6 +68,16 @@ python3 scripts/cleanup_media.py --days 7 --dry-run --json
 python3 scripts/install_cleanup_cron.py status --json
 ```
 
+### mainland-gpt-codex-hermes-onboarding
+
+Guides a mainland-China non-expert from compliant international network setup through ChatGPT/SMS, Codex CLI, Hermes Agent, and publishing the workflow as a reusable Skill that daily assistants such as 豆包 can follow.
+
+Path:
+
+```text
+skills/mainland-gpt-codex-hermes-onboarding/
+```
+
 ### deploy-claude-code-and-hermes-agent-on-windows
 
 Guides a non-expert through Windows WSL2, Claude Code, MiniMax Token Plan, Hermes Agent, and Feishu/Lark gateway setup, with a Claude Code bootstrap prompt and a one-QR Feishu scan-to-create path.
@@ -92,6 +102,7 @@ Direct GitHub installs should point at the individual skill directory when the i
 ```text
 SergioYin/sergio-skills --path skills/book-finder
 SergioYin/sergio-skills --path skills/deploy-claude-code-and-hermes-agent-on-windows
+SergioYin/sergio-skills --path skills/mainland-gpt-codex-hermes-onboarding
 SergioYin/sergio-skills --path skills/xiaohongshu-reader
 SergioYin/sergio-skills --path skills/weibo-reader
 ```

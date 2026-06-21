@@ -16,6 +16,7 @@
       "skills": [
         "./skills/book-finder",
         "./skills/deploy-claude-code-and-hermes-agent-on-windows",
+        "./skills/mainland-gpt-codex-hermes-onboarding",
         "./skills/xiaohongshu-reader",
         "./skills/weibo-reader"
       ]
