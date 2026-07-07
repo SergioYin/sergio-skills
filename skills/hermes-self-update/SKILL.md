@@ -62,6 +62,8 @@ git log --oneline HEAD..origin/main
 - [ ] cron jobs 仍在列表且下次触发时间正确。
 - [ ] 本地补丁行为抽查一项（如 feishu 话题路由）。
 
+**SOUL.md / skill 改动的生效边界（2026-07-07 实测）**：session 的 system prompt 在会话创建时定格，改 SOUL.md 或新装 skill 对**正在进行的会话不生效**。验证前必须先发 `/new` 重置会话，否则会误判"改动无效"。skill 注册本身无需重启 gateway（snapshot 带 mtime manifest 自动失效）。
+
 ### 6. 收尾
 - 报告：新版本号、合入的 upstream 变更两三句、冲突及意图处理方式、验证清单结果。
 - 有价值的合并教训 → 追加进本 skill 或记忆。
