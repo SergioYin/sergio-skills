@@ -29,3 +29,9 @@ Spec: `docs/specs/2026-07-09-claude-code-env-revamp-design.md`
 
 ### Rollback
 - `~/.claude/backups/skills-archive-20260709/`: `settings.json.bak`, `restore-lark-symlinks.sh`, archived skill dirs. Move dirs back + restore settings = full revert.
+
+## 2026-07-09 — Codex config review + P0 fix
+
+- Desktop app and CLI share ONE config home (`~/.codex`): config.toml, auth, skills, memories, sessions. Desktop-only parts inside the same file: `[desktop]` section + two app-managed local marketplaces. No duplicate config sources.
+- P0 fixed: npm `@openai/codex` was broken (0.128.0, empty vendor binary dir → ENOENT). Reinstalled → codex-cli 0.143.0, verified `login status` reads shared auth. This also unblocks Claude Code's codex plugin (rescue agent).
+- Open findings (user decision pending): 106 static skills in `~/.codex/skills` incl. buggy `hermes-*` bulk import with dupes (→ Phase 3); empty AGENTS.md (→ Phase 3 single-source generation); `/private/tmp` trusted project (security smell); quota-guard Stop hook disabled + suspicious `timeout = 18200`; 69MB logs sqlite; 13 plugins all enabled.
