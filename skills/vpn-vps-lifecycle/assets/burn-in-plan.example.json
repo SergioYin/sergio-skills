@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "approved_at": "<ISO8601_WITH_TIMEZONE>",
+  "timezone": "<IANA_TIMEZONE>",
+  "peak_window_start": "18:00",
+  "peak_window_end": "23:59",
+  "minimum_peak_dates": 3,
+  "maximum_alignment_minutes": 30,
+  "test_byte_budget": 100000000,
+  "max_cpu_steal_ratio": 0.1,
+  "min_memory_available_mb": 128,
+  "min_root_free_percent": 10
+}
