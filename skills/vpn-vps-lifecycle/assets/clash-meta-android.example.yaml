@@ -1,0 +1,46 @@
+# Documentation-only template. Replace every <PLACEHOLDER>; do not add desktop-only route exclusions blindly.
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+
+proxies:
+  - name: HY2-node
+    type: hysteria2
+    server: "<VPS_IP>"
+    port: 443
+    password: "<HY2_PASSWORD>"
+    sni: "<HY2_SNI>"
+    skip-cert-verify: false
+
+  - name: Reality-node
+    type: vless
+    server: "<VPS_IP>"
+    port: 443
+    uuid: "<UUID>"
+    network: tcp
+    tls: true
+    udp: true
+    flow: xtls-rprx-vision
+    servername: "<REALITY_SERVER_NAME>"
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "<REALITY_PUBLIC_KEY>"
+      short-id: "<REALITY_SHORT_ID>"
+
+proxy-groups:
+  - name: GLOBAL
+    type: select
+    proxies: [Reality-node, HY2-node, PROXY, AUTO]
+  - name: AUTO
+    type: fallback
+    proxies: [HY2-node, Reality-node]
+    url: https://www.gstatic.com/generate_204
+    interval: 300
+    lazy: true
+  - name: PROXY
+    type: select
+    proxies: [AUTO, HY2-node, Reality-node, DIRECT]
+
+rules:
+  - MATCH,PROXY

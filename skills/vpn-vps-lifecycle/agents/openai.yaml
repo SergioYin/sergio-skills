@@ -1,0 +1,4 @@
+interface:
+  display_name: "VPN VPS Lifecycle"
+  short_description: "Guided VPN VPS selection, deployment, and testing"
+  default_prompt: "Use $vpn-vps-lifecycle to interview me in rounds, recommend a suitable VPN VPS, and guide its deployment and acceptance."

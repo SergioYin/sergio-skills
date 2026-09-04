@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "client_profile_id": "<NON_IDENTIFYING_DEVICE_ID>",
+  "client_network": "<ANONYMIZED_REGION_AND_CARRIER>",
+  "protocol": "VLESS-REALITY",
+  "rule_mode_pass": true,
+  "global_mode_pass": true,
+  "ssh_loop_pass": true,
+  "business_checks_pass": true,
+  "notes": "<NON_SECRET_NOTES>"
+}

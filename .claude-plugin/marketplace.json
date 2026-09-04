@@ -18,7 +18,8 @@
         "./skills/deploy-claude-code-and-hermes-agent-on-windows",
         "./skills/mainland-gpt-codex-hermes-onboarding",
         "./skills/xiaohongshu-reader",
-        "./skills/weibo-reader"
+        "./skills/weibo-reader",
+        "./skills/vpn-vps-lifecycle"
       ]
     }
   ]
