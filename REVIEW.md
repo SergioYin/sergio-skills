@@ -34,8 +34,9 @@ Source: `mattpocock/skills`. The last install was 2026-08-18, matching upstream 
 
 ### Breaking upstream change (pending per project)
 - The domain-doc convention is now `GLOSSARY.md` / `GLOSSARY-MAP.md`, renamed from `CONTEXT.md` / `CONTEXT-MAP.md`. The updated skills only look for the new names.
-- Projects still on `CONTEXT.md`: game_rl, agent-interop, second-brain, qqq-dca-research, ai-glass, speech-coach, pi-bot. personal-fleet already uses `GLOSSARY.md`.
+- Projects still on `CONTEXT.md`: agent-interop, second-brain, qqq-dca-research, ai-glass, speech-coach, pi-bot. personal-fleet already uses `GLOSSARY.md`.
 - Migration for each project: `git mv CONTEXT.md GLOSSARY.md`, then update the pointers in `AGENTS.md` and `docs/agents/domain.md`.
+- game_rl was migrated on 2026-10-13. The other projects migrate when work first touches their domain docs. A "Domain glossary" rule in `~/.claude/CLAUDE.md` triggers this.
 
 ### How to update next time
 1. Clone upstream.
