@@ -1,0 +1,4 @@
+# Copy this file into the task's private directory and replace these examples.
+# One HTTPS URL per line. Use complete business actions separately when a GET is insufficient.
+https://www.gstatic.com/generate_204
+https://example.com/

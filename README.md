@@ -88,6 +88,28 @@ Path:
 skills/deploy-claude-code-and-hermes-agent-on-windows/
 ```
 
+### vpn-vps-lifecycle
+
+Guides a non-expert through privacy-safe VPN VPS selection and procurement, evidence-gated Ubuntu and REALITY deployment, Mihomo client configuration, acceptance testing, monitoring, rollback, and multi-window burn-in.
+
+Status: beta-stable. The bundled examples and Mihomo configurations are validated, but a full disposable Ubuntu/systemd deployment, failure-injection, and rollback integration run is still required before treating the workflow as production-proven.
+
+Safety disclaimer: this workflow can change remote servers, firewalls, SSH access, and client routing. Review its plan and prechecks, keep a recovery path, and require explicit authorization before making changes. It does not guarantee that a provider, route, protocol, or streaming service will remain suitable over time.
+
+Path:
+
+```text
+skills/vpn-vps-lifecycle/
+```
+
+Quick checks:
+
+```bash
+cd skills/vpn-vps-lifecycle
+python3 scripts/validate_distribution.py
+python3 scripts/smoke_test.py
+```
+
 ## Install As Plugin Marketplace
 
 In a compatible agent runtime:
@@ -105,6 +127,7 @@ SergioYin/sergio-skills --path skills/deploy-claude-code-and-hermes-agent-on-win
 SergioYin/sergio-skills --path skills/mainland-gpt-codex-hermes-onboarding
 SergioYin/sergio-skills --path skills/xiaohongshu-reader
 SergioYin/sergio-skills --path skills/weibo-reader
+SergioYin/sergio-skills --path skills/vpn-vps-lifecycle
 ```
 
 ## Repository Rules

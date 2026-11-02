@@ -1,0 +1,31 @@
+mixed-port: 7890
+allow-lan: false
+mode: rule
+log-level: info
+
+proxies:
+  - name: Reality-node
+    type: vless
+    server: "@@VPS_IP@@"
+    port: @@REALITY_PORT@@
+    uuid: "@@UUID@@"
+    network: tcp
+    tls: true
+    udp: true
+    flow: xtls-rprx-vision
+    servername: "@@SERVER_NAME@@"
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: "@@REALITY_PUBLIC_KEY@@"
+      short-id: "@@SHORT_ID@@"
+
+proxy-groups:
+  - name: GLOBAL
+    type: select
+    proxies: [Reality-node, PROXY]
+  - name: PROXY
+    type: select
+    proxies: [Reality-node, DIRECT]
+
+rules:
+  - MATCH,PROXY

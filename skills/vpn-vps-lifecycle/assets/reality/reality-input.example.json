@@ -1,0 +1,26 @@
+{
+  "schema_version": 2,
+  "vps_ip": "<VPS_IP>",
+  "reality_port": 443,
+  "reality_private_key": "<REALITY_PRIVATE_KEY>",
+  "reality_public_key": "<REALITY_PUBLIC_KEY>",
+  "server_name": "<REALITY_SERVER_NAME>",
+  "target": "<REALITY_TARGET_HOST>:443",
+  "xray_version": "<PINNED_XRAY_VERSION>",
+  "mihomo_version": "<CLIENT_MIHOMO_VERSION>",
+  "allow_unverified_mihomo_compatibility": false,
+  "clients": [
+    {
+      "device_name": "<DESKTOP_DEVICE_ID>",
+      "platform": "desktop",
+      "uuid": "<DESKTOP_UUID>",
+      "short_id": "<DESKTOP_REALITY_SHORT_ID>"
+    },
+    {
+      "device_name": "<ANDROID_DEVICE_ID>",
+      "platform": "android",
+      "uuid": "<ANDROID_UUID>",
+      "short_id": "<ANDROID_REALITY_SHORT_ID>"
+    }
+  ]
+}
